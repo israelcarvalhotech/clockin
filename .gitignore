@@ -1,0 +1,19 @@
+# Variáveis de ambiente (senhas, configs locais)
+.env
+
+# Dependências do Composer
+/vendor/
+
+# Cache e arquivos temporários
+*.cache
+*.log
+
+# Arquivos do sistema operacional
+.DS_Store
+Thumbs.db
+
+# IDE (PhpStorm)
+.idea/
+
+# IDE (VS Code)
+.vscode/
