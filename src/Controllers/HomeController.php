@@ -2,18 +2,19 @@
 
 namespace App\Controllers;
 
-use App\Core\Database;
+use App\Core\Session;
 
 class HomeController
 {
     public function index(): void
     {
-        $db = Database::getConnection();
-        $stmt = $db->query("SELECT name, email FROM users LIMIT 1");
-        $user = $stmt->fetch();
+        if (!Session::isLoggedIn()) {
+            header('Location: /login');
+            exit;
+        }
 
-        echo "<h1>ClockIn</h1>";
-        echo "<p>Conexão com banco OK!</p>";
-        echo "<p>Admin: {$user['name']} - {$user['email']}</p>";
+        $userName = Session::get('user_name');
+        echo "<h1>Bem-vindo, {$userName}!</h1>";
+        echo "<p><a href='/logout'>Sair</a></p>";
     }
 }
