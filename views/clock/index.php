@@ -33,6 +33,9 @@
     <div class="container">
         <span class="navbar-brand fw-bold">ClockIn</span>
         <div>
+            <?php if (\App\Core\Session::get('is_admin')): ?>
+                <a href="/users" class="btn btn-outline-light btn-sm me-2">Usuários</a>
+            <?php endif; ?>
             <span class="text-light me-3"><?= htmlspecialchars($userName) ?></span>
             <a href="/logout" class="btn btn-outline-light btn-sm">Sair</a>
         </div>
@@ -73,6 +76,7 @@
             <div class="text-center">
                 <?php if ($nextTime): ?>
                     <form method="POST" action="/clock">
+                        <?= \App\Core\Csrf::input() ?>
                         <button type="submit" class="btn btn-punch btn-success text-white">
                             Bater Ponto
                         </button>

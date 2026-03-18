@@ -54,6 +54,7 @@
                         <td class="text-end">
                             <a href="/users/edit?id=<?= $u['id'] ?>" class="btn btn-warning btn-sm">Editar</a>
                             <form method="POST" action="/users/delete" class="d-inline" onsubmit="return confirm('Tem certeza?')">
+                                <?= \App\Core\Csrf::input() ?>
                                 <input type="hidden" name="id" value="<?= $u['id'] ?>">
                                 <button type="submit" class="btn btn-danger btn-sm">Excluir</button>
                             </form>

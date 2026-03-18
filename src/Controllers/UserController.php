@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Core\Session;
+use App\Core\Csrf;
+use App\Core\Validator;
 use App\Models\User;
 
 class UserController
@@ -42,13 +44,27 @@ class UserController
     {
         $this->requireAdmin();
 
+        if (!Csrf::verify()) {
+            Session::setFlash('error', 'Token de segurança inválido.');
+            header('Location: /users/create');
+            exit;
+        }
+
         $name = $_POST['name'] ?? '';
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
         $isAdmin = isset($_POST['is_admin']) ? 1 : 0;
 
-        if (empty($name) || empty($email) || empty($password)) {
-            Session::setFlash('error', 'Preencha todos os campos obrigatórios.');
+        $validator = new Validator();
+        $validator
+            ->required('name', $name, 'Nome')
+            ->required('email', $email, 'E-mail')
+            ->email('email', $email, 'E-mail')
+            ->required('password', $password, 'Senha')
+            ->minLength('password', $password, 6, 'Senha');
+
+        if ($validator->hasErrors()) {
+            Session::setFlash('error', $validator->getFirstError());
             header('Location: /users/create');
             exit;
         }
@@ -96,6 +112,13 @@ class UserController
     public function update(): void
     {
         $this->requireAdmin();
+
+        if (!Csrf::verify()) {
+            Session::setFlash('error', 'Token de segurança inválido.');
+            header('Location: /users');
+            exit;
+        }
+
         $id = $_POST['id'] ?? null;
 
         if (!$id) {
@@ -108,8 +131,14 @@ class UserController
         $password = $_POST['password'] ?? '';
         $isAdmin = isset($_POST['is_admin']) ? 1 : 0;
 
-        if (empty($name) || empty($email)) {
-            Session::setFlash('error', 'Nome e e-mail são obrigatórios.');
+        $validator = new Validator();
+        $validator
+            ->required('name', $name, 'Nome')
+            ->required('email', $email, 'E-mail')
+            ->email('email', $email, 'E-mail');
+
+        if ($validator->hasErrors()) {
+            Session::setFlash('error', $validator->getFirstError());
             header("Location: /users/edit?id={$id}");
             exit;
         }
@@ -129,6 +158,13 @@ class UserController
     public function destroy(): void
     {
         $this->requireAdmin();
+
+        if (!Csrf::verify()) {
+            Session::setFlash('error', 'Token de segurança inválido.');
+            header('Location: /users');
+            exit;
+        }
+
         $id = $_POST['id'] ?? null;
 
         if (!$id) {

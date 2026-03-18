@@ -9,10 +9,7 @@
         body { background: #f0f2f5; }
         .navbar { background: #0f3460; }
         .card { border: none; border-radius: 16px; }
-        .form-control:focus {
-            border-color: #0f3460;
-            box-shadow: 0 0 0 0.2rem rgba(15, 52, 96, 0.25);
-        }
+        .form-control:focus { border-color: #0f3460; box-shadow: 0 0 0 0.2rem rgba(15, 52, 96, 0.25); }
     </style>
 </head>
 <body>
@@ -42,6 +39,7 @@
                 </div>
                 <div class="card-body p-4">
                     <form method="POST" action="<?= empty($user) ? '/users/store' : '/users/update' ?>">
+                        <?= \App\Core\Csrf::input() ?>
                         <?php if (!empty($user)): ?>
                             <input type="hidden" name="id" value="<?= $user['id'] ?>">
                         <?php endif; ?>
@@ -60,12 +58,12 @@
                                 Senha <?= !empty($user) ? '(deixe vazio para manter)' : '' ?>
                             </label>
                             <input type="password" id="password" name="password" class="form-control"
-                                <?= empty($user) ? 'required' : '' ?>>
+                                    <?= empty($user) ? 'required' : '' ?>>
                         </div>
                         <div class="mb-4">
                             <div class="form-check">
                                 <input type="checkbox" id="is_admin" name="is_admin" class="form-check-input"
-                                    <?= !empty($user['is_admin']) ? 'checked' : '' ?>>
+                                        <?= !empty($user['is_admin']) ? 'checked' : '' ?>>
                                 <label for="is_admin" class="form-check-label">Administrador</label>
                             </div>
                         </div>

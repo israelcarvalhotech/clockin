@@ -12,47 +12,15 @@
             align-items: center;
             background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
         }
-        .login-card {
-            border: none;
-            border-radius: 16px;
-            overflow: hidden;
-        }
-        .login-header {
-            background: #0f3460;
-            color: white;
-            padding: 32px 24px;
-            text-align: center;
-        }
-        .login-header h3 {
-            font-size: 28px;
-            font-weight: 700;
-            margin-bottom: 4px;
-        }
-        .login-header small {
-            opacity: 0.7;
-        }
-        .login-body {
-            padding: 32px 24px;
-        }
-        .form-control {
-            padding: 12px;
-            border-radius: 8px;
-        }
-        .form-control:focus {
-            border-color: #0f3460;
-            box-shadow: 0 0 0 0.2rem rgba(15, 52, 96, 0.25);
-        }
-        .btn-primary {
-            background: #0f3460;
-            border: none;
-            padding: 12px;
-            border-radius: 8px;
-            font-weight: 600;
-            font-size: 16px;
-        }
-        .btn-primary:hover {
-            background: #1a4a7a;
-        }
+        .login-card { border: none; border-radius: 16px; overflow: hidden; }
+        .login-header { background: #0f3460; color: white; padding: 32px 24px; text-align: center; }
+        .login-header h3 { font-size: 28px; font-weight: 700; margin-bottom: 4px; }
+        .login-header small { opacity: 0.7; }
+        .login-body { padding: 32px 24px; }
+        .form-control { padding: 12px; border-radius: 8px; }
+        .form-control:focus { border-color: #0f3460; box-shadow: 0 0 0 0.2rem rgba(15, 52, 96, 0.25); }
+        .btn-primary { background: #0f3460; border: none; padding: 12px; border-radius: 8px; font-weight: 600; font-size: 16px; }
+        .btn-primary:hover { background: #1a4a7a; }
     </style>
 </head>
 <body>
@@ -71,6 +39,7 @@
                         </div>
                     <?php endif; ?>
                     <form method="POST" action="/login">
+                        <?= \App\Core\Csrf::input() ?>
                         <div class="mb-3">
                             <label for="email" class="form-label fw-semibold">E-mail</label>
                             <input type="email" id="email" name="email" class="form-control" placeholder="seu@email.com" required>

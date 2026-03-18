@@ -3,6 +3,8 @@
 namespace App\Controllers;
 
 use App\Core\Session;
+use App\Core\Csrf;
+use App\Core\Validator;
 use App\Models\User;
 
 class AuthController
@@ -15,11 +17,22 @@ class AuthController
 
     public function login(): void
     {
+        if (!Csrf::verify()) {
+            Session::setFlash('error', 'Token de segurança inválido.');
+            header('Location: /login');
+            exit;
+        }
+
         $email = $_POST['email'] ?? '';
         $password = $_POST['password'] ?? '';
 
-        if (empty($email) || empty($password)) {
-            Session::setFlash('error', 'Preencha todos os campos.');
+        $validator = new Validator();
+        $validator
+            ->required('email', $email, 'E-mail')
+            ->required('password', $password, 'Senha');
+
+        if ($validator->hasErrors()) {
+            Session::setFlash('error', $validator->getFirstError());
             header('Location: /login');
             exit;
         }
@@ -36,7 +49,7 @@ class AuthController
         Session::set('user_name', $user['name']);
         Session::set('is_admin', $user['is_admin']);
 
-        header('Location: /');
+        header('Location: /clock');
         exit;
     }
 

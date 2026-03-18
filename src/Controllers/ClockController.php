@@ -3,6 +3,7 @@
 namespace App\Controllers;
 
 use App\Core\Session;
+use App\Core\Csrf;
 use App\Models\WorkingHours;
 
 class ClockController
@@ -28,6 +29,12 @@ class ClockController
     {
         if (!Session::isLoggedIn()) {
             header('Location: /login');
+            exit;
+        }
+
+        if (!Csrf::verify()) {
+            Session::setFlash('error', 'Token de segurança inválido.');
+            header('Location: /clock');
             exit;
         }
 
