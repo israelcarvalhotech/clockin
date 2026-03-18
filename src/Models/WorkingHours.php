@@ -50,4 +50,42 @@ class WorkingHours
         if (empty($record['time4'])) return 'time4';
         return null;
     }
+
+    public static function getMonthlyReport(int $userId, int $year, int $month): array
+    {
+        $db = Database::getConnection();
+        $startDate = sprintf('%04d-%02d-01', $year, $month);
+        $endDate = date('Y-m-t', strtotime($startDate));
+
+        $stmt = $db->prepare(
+            "SELECT * FROM working_hours WHERE user_id = :user_id AND work_date BETWEEN :start AND :end ORDER BY work_date"
+        );
+        $stmt->execute([
+            'user_id' => $userId,
+            'start' => $startDate,
+            'end' => $endDate,
+        ]);
+        return $stmt->fetchAll();
+    }
+
+    public static function calculateWorkedSeconds(?string $time1, ?string $time2, ?string $time3, ?string $time4): int
+    {
+        $seconds = 0;
+
+        if ($time1 && $time2) {
+            $seconds += strtotime($time2) - strtotime($time1);
+        }
+        if ($time3 && $time4) {
+            $seconds += strtotime($time4) - strtotime($time3);
+        }
+
+        return max(0, $seconds);
+    }
+
+    public static function formatSeconds(int $seconds): string
+    {
+        $h = intdiv($seconds, 3600);
+        $m = intdiv($seconds % 3600, 60);
+        return sprintf('%02d:%02d', $h, $m);
+    }
 }

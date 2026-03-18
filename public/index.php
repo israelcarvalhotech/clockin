@@ -10,6 +10,7 @@ use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ClockController;
 use App\Controllers\UserController;
+use App\Controllers\ReportController;
 
 Session::start();
 
@@ -27,5 +28,6 @@ $router->post('/users/store', UserController::class, 'store');
 $router->get('/users/edit', UserController::class, 'edit');
 $router->post('/users/update', UserController::class, 'update');
 $router->post('/users/delete', UserController::class, 'destroy');
+$router->get('/report', ReportController::class, 'monthly');
 
 $router->dispatch();
