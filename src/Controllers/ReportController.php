@@ -33,6 +33,9 @@ class ReportController
         $totalWorked = WorkingHours::formatSeconds($totalSeconds);
         $flash = Session::getFlash();
 
+        ob_start();
         require __DIR__ . '/../../views/reports/monthly.php';
+        $content = ob_get_clean();
+        require __DIR__ . '/../../views/layouts/main.php';
     }
 }

@@ -22,7 +22,10 @@ class ClockController
         $nextTime = WorkingHours::getNextTimeColumn($record);
         $flash = Session::getFlash();
 
+        ob_start();
         require __DIR__ . '/../../views/clock/index.php';
+        $content = ob_get_clean();
+        require __DIR__ . '/../../views/layouts/main.php';
     }
 
     public function punch(): void

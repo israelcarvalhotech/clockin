@@ -13,8 +13,7 @@ class HomeController
             exit;
         }
 
-        $userName = Session::get('user_name');
-        echo "<h1>Bem-vindo, {$userName}!</h1>";
-        echo "<p><a href='/logout'>Sair</a></p>";
+        header('Location: /clock');
+        exit;
     }
 }

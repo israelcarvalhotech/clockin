@@ -28,7 +28,11 @@ class UserController
         $users = User::getAll();
         $flash = Session::getFlash();
         $userName = Session::get('user_name');
+
+        ob_start();
         require __DIR__ . '/../../views/users/index.php';
+        $content = ob_get_clean();
+        require __DIR__ . '/../../views/layouts/main.php';
     }
 
     public function create(): void
@@ -37,7 +41,11 @@ class UserController
         $user = [];
         $flash = Session::getFlash();
         $userName = Session::get('user_name');
+
+        ob_start();
         require __DIR__ . '/../../views/users/form.php';
+        $content = ob_get_clean();
+        require __DIR__ . '/../../views/layouts/main.php';
     }
 
     public function store(): void
@@ -106,7 +114,11 @@ class UserController
 
         $flash = Session::getFlash();
         $userName = Session::get('user_name');
+
+        ob_start();
         require __DIR__ . '/../../views/users/form.php';
+        $content = ob_get_clean();
+        require __DIR__ . '/../../views/layouts/main.php';
     }
 
     public function update(): void
