@@ -9,6 +9,7 @@ use App\Core\Session;
 use App\Controllers\HomeController;
 use App\Controllers\AuthController;
 use App\Controllers\ClockController;
+use App\Controllers\UserController;
 
 Session::start();
 
@@ -20,5 +21,11 @@ $router->post('/login', AuthController::class, 'login');
 $router->get('/logout', AuthController::class, 'logout');
 $router->get('/clock', ClockController::class, 'index');
 $router->post('/clock', ClockController::class, 'punch');
+$router->get('/users', UserController::class, 'index');
+$router->get('/users/create', UserController::class, 'create');
+$router->post('/users/store', UserController::class, 'store');
+$router->get('/users/edit', UserController::class, 'edit');
+$router->post('/users/update', UserController::class, 'update');
+$router->post('/users/delete', UserController::class, 'destroy');
 
 $router->dispatch();
